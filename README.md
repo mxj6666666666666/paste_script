@@ -1,2 +1,3 @@
 # paste_script
-it can help you paste something from the object file
+## 在某些软件里面设置了不允许粘贴
+### 于是我决定做一个小脚本来帮助我们粘贴文字

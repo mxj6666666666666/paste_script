@@ -145,7 +145,7 @@ class AutoTyper:
                     break
                 # 使用 xdotool 输入字符，支持中文
                 self.type_char_with_xdotool(char)
-                time.sleep(0.1)  # 每个字符间隔0.1秒
+                time.sleep(0.01)  # 每个字符间隔0.01秒
         except Exception as e:
             error_msg = f"输入过程中出错: {e}"
             print(error_msg)
@@ -164,11 +164,16 @@ class AutoTyper:
     def type_char_with_xdotool(self, char):
         """使用 xdotool 输入单个字符"""
         try:
-            # 转义特殊字符
-            escaped_char = char.replace('"', '\\"').replace("'", "\\'")
-            # 使用 xdotool type 命令输入字符
-            subprocess.run(['xdotool', 'type', '--delay', '100', escaped_char], 
-                         check=True, capture_output=True, text=True)
+            if char == '\n':
+                # 对于换行符，使用 key 命令模拟回车键
+                subprocess.run(['xdotool', 'key', 'Return'], 
+                             check=True, capture_output=True, text=True)
+            else:
+                # 转义特殊字符
+                escaped_char = char.replace('"', '\\"').replace("'", "\\'")
+                # 使用 xdotool type 命令输入字符
+                subprocess.run(['xdotool', 'type', '--delay', '100', escaped_char], 
+                             check=True, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
             print(f"xdotool 输入失败: {e}")
             raise
